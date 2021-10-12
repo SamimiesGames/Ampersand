@@ -1,5 +1,5 @@
 from .memory import DynamicMemory
-from .instruc import BACKENDS
+from .backends import BACKENDS
 from .utypes import UInt, UIntr
 
 
