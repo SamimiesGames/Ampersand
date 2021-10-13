@@ -1,0 +1,4 @@
+
+[testing]
+pytest>=6.0
+tox>=3.24
