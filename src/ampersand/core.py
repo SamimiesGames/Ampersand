@@ -2,23 +2,28 @@ from .memory import DynamicMemory
 from .backends import BACKENDS
 from .utypes import UInt, UIntr
 
+from .utils import sizeof
+
 
 class Core:
     def __init__(self, bits: int, backend: str):
-        print(f"Creating Virtual Machine with {backend = } {bits = }")
-        self.size = bits ** 2
+        print(f"Ampersand Virtual Machine with {backend = } {bits = }")
+        self.size = sizeof.in_bits(bits)
 
         self.a, self.b, self.c = UInt(0, self.size), UInt(0, self.size), UInt(0, self.size)
         self.z, self.o, self.u = False, False, False
 
-        self.pc, self.sp = UInt(0, self.size), UInt(0, self.size)
-
         self.backend = BACKENDS[backend]
+
+        vectors = self.backend["vectors"]
+        pc_vector, sp_vector = vectors["pc"], vectors["sp"]
+
+        self.pc, self.sp = UInt(pc_vector, self.size), UInt(sp_vector, self.size)
 
         self.memory = DynamicMemory(self.size)
 
     def run(self):
-        while self.pc <= self.size:
+        while self.pc < self.size:
             value = self.memory[self.pc]
             instruc = self.backend[value]
 
@@ -29,4 +34,3 @@ class Core:
                 instruc(self)
 
             self.pc += 1
-        print("exit")
