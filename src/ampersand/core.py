@@ -1,13 +1,19 @@
 from .memory import DynamicMemory
 from .backends import BACKENDS
 from .utypes import UInt, UIntr
-
 from .utils import sizeof
+
+import click
+
+
+__all__ = [
+    "Core"
+]
 
 
 class Core:
     def __init__(self, bits: int, backend: str):
-        print(f"Ampersand Virtual Machine with {backend = } {bits = }")
+        click.secho(f"I: Create AVM", fg="cyan", bold=True)
         self.size = sizeof.in_bits(bits)
 
         self.a, self.b, self.c = UInt(0, self.size), UInt(0, self.size), UInt(0, self.size)
