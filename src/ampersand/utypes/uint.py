@@ -13,39 +13,46 @@ class UInt:
         self.value = -self.bits if self.value < -self.bits else self.value
 
     @staticmethod
-    def _format_other(other) -> int:
-        if hasattr(other, "value"):
+    def format_other(other) -> int:
+        if isinstance(other, UInt):
             return other.value
         else:
             return other
 
     def __add__(self, other):
-        value = self._format_other(other)
+        value = self.format_other(other)
         return UInt(self.value + value, self.bits)
 
     def __sub__(self, other):
-        value = self._format_other(other)
+        value = self.format_other(other)
         return UInt(self.value - value, self.bits)
 
     def __mul__(self, other):
-        value = self._format_other(other)
+        value = self.format_other(other)
         return UInt(self.value * value, self.bits)
 
     def __divmod__(self, other):
-        value = self._format_other(other)
+        value = self.format_other(other)
         return UInt(self.value / value, self.bits)
 
     def __lt__(self, other):
-        value = self._format_other(other)
+        value = self.format_other(other)
         return self.value < value
 
+    def __gt__(self, other):
+        value = self.format_other(other)
+        return self.value > value
+
     def __le__(self, other):
-        value = self._format_other(other)
+        value = self.format_other(other)
         return self.value <= value
 
     def __eq__(self, other):
-        value = self._format_other(other)
+        value = self.format_other(other)
         return self.value == value
 
+    def __len__(self):
+        return 2
+
     def __repr__(self):
-        return f"<{self.__class__.__name__}, {self.value=}, {self.bits}>"
+        return f"<{self.__class__.__name__}, {self.value=}, {self.bits=}>"
