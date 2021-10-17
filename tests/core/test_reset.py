@@ -6,9 +6,9 @@ core = Core(16, "aps")
 def test_reset():
     core.reset()
 
-    assert core.a.value == 0
-    assert core.b.value == 0
-    assert core.c.value == 0
+    assert core.a == 0
+    assert core.b == 0
+    assert core.c == 0
 
     assert core.z is False
     assert core.o is False
@@ -16,6 +16,6 @@ def test_reset():
 
     assert sum(core.memory.memory.values()) == 0
 
-    assert core.pc.value == core.pc_vector
-    assert core.sp.value == core.sp_vector
+    assert core.pc == core.pc_vector
+    assert core.sp == core.sp_vector
 

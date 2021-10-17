@@ -1,6 +1,6 @@
 from .memory import DynamicMemory
 from .backends import BACKENDS
-from .utypes import UInt, UIntr
+from .utypes import UIntr
 from .utils import sizeof
 
 import click
@@ -15,29 +15,32 @@ class Core:
     def __init__(self, bits: int, backend: str):
         self.size = sizeof.in_bits(bits)
 
-        self.a, self.b, self.c = UInt(0, self.size), UInt(0, self.size), UInt(0, self.size)
+        self.a, self.b, self.c = 0, 0, 0
         self.z, self.o, self.u = False, False, False
 
         self.backend = BACKENDS[backend]
 
         vectors = self.backend["vectors"]
-        self.pc_vector, self.sp_vector = UInt(vectors["pc"], self.size), UInt(vectors["sp"], self.size)
+        self.pc_vector, self.sp_vector = vectors["pc"], vectors["sp"]
 
-        self.pc, self.sp = UInt(self.pc_vector.value, self.size), UInt(self.sp_vector.value, self.size)
+        self.pc, self.sp = self.pc_vector, self.sp_vector
 
         self.memory = DynamicMemory(self.size)
 
+    def load(self, index, instruc):
+        self.memory[index] = instruc
+
     def reset(self):
-        self.a.value, self.b.value, self.c.value = 0, 0, 0
+        self.a, self.b, self.c = 0, 0, 0
         self.z, self.o, self.u = False, False, False
-        self.pc.value = self.pc_vector
-        self.sp.value = self.sp_vector
+        self.pc = self.pc_vector
+        self.sp = self.sp_vector
 
     def run(self):
         print("running...")
         while self.pc < self.size:
-            value = self.memory[self.pc]
-            instruc = self.backend[value]
+            optcode = self.memory[self.pc]
+            instruc = self.backend[optcode]
 
             if isinstance(instruc, UIntr):
                 if instruc.breaks:
