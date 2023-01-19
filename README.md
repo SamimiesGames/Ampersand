@@ -2,3 +2,5 @@
 # Ampersand Virtual Machine (&)
 `Version 0.0.2`
 
+![Flowchart](docs/Flowchart.jpg)
+
