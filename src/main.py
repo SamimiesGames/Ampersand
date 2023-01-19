@@ -9,9 +9,10 @@ core.load(0x2, 1)
 core.load(0x3, registers.STA)
 core.load(0x4, registers.STB)
 
+# section .data
 core.load(0x5, math.ADD)
 
-
+# footer
 core.memory[core.size] = flow.HLT
 
 core.run()
