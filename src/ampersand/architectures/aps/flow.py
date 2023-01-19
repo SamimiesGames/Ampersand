@@ -1,4 +1,4 @@
-from ...utypes import UIntr
+from ampersand.utypes import UIntr
 
 # Flow Control
 

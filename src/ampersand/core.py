@@ -1,7 +1,7 @@
-from .memory import DynamicMemory
-from .backends import BACKENDS
-from .utypes import UIntr
-from .utils import sizeof
+from ampersand.memory import DynamicMemory
+from ampersand.architectures import ARCHITECTURES
+from ampersand.utypes import UIntr
+from ampersand.utils import sizeof
 
 import click
 
@@ -12,15 +12,15 @@ __all__ = [
 
 
 class Core:
-    def __init__(self, bits: int, backend: str):
+    def __init__(self, bits: int, architecture: str):
         self.size = sizeof.in_bits(bits)
 
         self.a, self.b, self.c = 0, 0, 0
         self.z, self.o, self.u = False, False, False
 
-        self.backend = BACKENDS[backend]
+        self.architecture = ARCHITECTURES[architecture]
 
-        vectors = self.backend["vectors"]
+        vectors = self.architecture["vectors"]
         self.pc_vector, self.sp_vector = vectors["pc"], vectors["sp"]
 
         self.pc, self.sp = self.pc_vector, self.sp_vector
@@ -40,7 +40,7 @@ class Core:
         print("running...")
         while self.pc < self.size:
             optcode = self.memory[self.pc]
-            instruc = self.backend[optcode]
+            instruc = self.architecture[optcode]
 
             if isinstance(instruc, UIntr):
                 if instruc.breaks:
