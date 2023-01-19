@@ -3,4 +3,4 @@
 `Version 0.0.2`
 
 ![Flowchart](docs/Flowchart0.0.2.jpg)
-
+![UML](docs/UML0.0.2.jpg)
