@@ -1,4 +1,4 @@
-from ampersand.architectures.aps import flow, registers, math
+from ampersand.architectures.aps import flow, registers, math, stack
 import ampersand
 
 core = ampersand.Core(16, "aps")
@@ -7,10 +7,16 @@ core = ampersand.Core(16, "aps")
 core.load(0x1, registers.LDM)
 core.load(0x2, 1)
 core.load(0x3, registers.STA)
-core.load(0x4, registers.STB)
 
 # section .data
-core.load(0x5, math.ADD)
+core.load(0x6, math.ADD)
+core.load(0x7, stack.PSH)
+
+core.load(0x8, registers.LDB)
+core.load(0x9, registers.STA)
+
+core.load(0xa, stack.POP)
+core.load(0xb, registers.STB)
 
 # footer
 core.memory[core.size] = flow.HLT
